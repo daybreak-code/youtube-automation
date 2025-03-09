@@ -1,0 +1,50 @@
+<div class="modal fade" id="createStoryboardModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">新增分镜</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="createStoryboardForm">
+                    <div class="mb-3">
+                        <label class="form-label">分镜内容</label>
+                        <textarea class="form-control" name="content" rows="3" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">排序</label>
+                        <input type="number" class="form-control" name="order" required min="1">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">图片提示词</label>
+                        <textarea class="form-control" name="image_prompt" rows="2"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">图片提示词(英文)</label>
+                        <textarea class="form-control" name="image_prompt_en" rows="2"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">视频提示词</label>
+                        <textarea class="form-control" name="video_prompt" rows="2"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">视频提示词(英文)</label>
+                        <textarea class="form-control" name="video_prompt_en" rows="2"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">字幕</label>
+                        <textarea class="form-control" name="subtitle" rows="2"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">字幕(英文)</label>
+                        <textarea class="form-control" name="subtitle_en" rows="2"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" id="createStoryboardBtn">创建</button>
+            </div>
+        </div>
+    </div>
+</div> 

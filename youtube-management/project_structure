@@ -1,0 +1,29 @@
+youtube_shorts_manager/
+├── app/
+│   ├── __init__.py
+│   ├── main.py
+│   ├── config.py
+│   ├── database.py
+│   ├── models/
+│   │   ├── __init__.py
+│   │   ├── draft.py
+│   │   └── storyboard.py
+│   ├── routes/
+│   │   ├── __init__.py
+│   │   ├── draft.py
+│   │   └── storyboard.py
+│   └── templates/
+│       ├── base.html
+│       ├── drafts/
+│       │   ├── list.html
+│       │   └── create_modal.html
+│       └── storyboard/
+│           ├── list.html
+│           └── create_modal.html
+├── static/
+│   ├── css/
+│   │   └── style.css
+│   └── js/
+│       ├── draft.js
+│       └── storyboard.js
+└── requirements.txt 

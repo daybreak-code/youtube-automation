@@ -1,0 +1,241 @@
+:root {
+    --apple-bg: #ffffff;
+    --apple-text: #1d1d1f;
+    --apple-gray: #86868b;
+    --apple-blue: #0066cc;
+    --apple-hover: #f5f5f7;
+    --apple-border: #d2d2d7;
+    --apple-shadow: rgba(0, 0, 0, 0.1);
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Icons", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    background-color: var(--apple-bg);
+    color: var(--apple-text);
+    -webkit-font-smoothing: antialiased;
+}
+
+/* 侧边栏样式 */
+.sidebar {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 100;
+    width: 240px;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(20px);
+    border-right: 1px solid var(--apple-border);
+    padding-top: 20px;
+}
+
+.sidebar-sticky {
+    position: relative;
+    top: 0;
+    height: calc(100vh - 20px);
+    padding-top: 1rem;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.sidebar .nav-link {
+    color: var(--apple-text);
+    font-size: 14px;
+    padding: 12px 24px;
+    border-radius: 8px;
+    margin: 4px 12px;
+    transition: all 0.2s ease;
+}
+
+.sidebar .nav-link:hover {
+    background-color: var(--apple-hover);
+    color: var(--apple-blue);
+}
+
+/* 主内容区域 */
+.main-content {
+    margin-left: 240px;
+    padding: 40px;
+    width: calc(100% - 240px);
+}
+
+/* 标题样式 */
+h1 {
+    font-size: 32px;
+    font-weight: 600;
+    letter-spacing: -0.003em;
+    margin-bottom: 24px;
+}
+
+/* 按钮样式 */
+.btn {
+    border-radius: 980px;
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.btn-primary {
+    background-color: var(--apple-blue);
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #004499;
+    transform: scale(1.02);
+}
+
+.btn-secondary {
+    background-color: var(--apple-hover);
+    border: 1px solid var(--apple-border);
+    color: var(--apple-text);
+}
+
+.btn-secondary:hover {
+    background-color: #e5e5e5;
+    color: var(--apple-text);
+}
+
+/* 表格样式 */
+.table {
+    border-collapse: separate;
+    border-spacing: 0;
+    width: 100%;
+    background: var(--apple-bg);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px var(--apple-shadow);
+}
+
+.table th {
+    background-color: var(--apple-hover);
+    color: var(--apple-gray);
+    font-weight: 500;
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 0.05em;
+    padding: 16px;
+    border-bottom: 1px solid var(--apple-border);
+}
+
+.table td {
+    padding: 16px;
+    border-bottom: 1px solid var(--apple-border);
+    color: var(--apple-text);
+    font-size: 14px;
+    vertical-align: middle;
+}
+
+/* 模态框样式 */
+.modal-content {
+    border-radius: 12px;
+    border: none;
+    box-shadow: 0 4px 24px var(--apple-shadow);
+}
+
+.modal-header {
+    border-bottom: 1px solid var(--apple-border);
+    padding: 20px 24px;
+}
+
+.modal-title {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.modal-body {
+    padding: 24px;
+}
+
+/* 表单样式 */
+.form-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--apple-gray);
+    margin-bottom: 8px;
+}
+
+.form-control, .form-select {
+    border-radius: 8px;
+    border: 1px solid var(--apple-border);
+    padding: 12px;
+    font-size: 14px;
+    transition: all 0.2s ease;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: var(--apple-blue);
+    box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+}
+
+/* 可编辑单元格样式 */
+.editable {
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.editable:hover {
+    background-color: var(--apple-hover);
+}
+
+/* 折叠图标样式 */
+.collapse-icon {
+    color: var(--apple-gray);
+    transition: all 0.2s ease;
+}
+
+.collapse-icon:hover {
+    color: var(--apple-blue);
+}
+
+/* 工具栏样式 */
+.btn-toolbar {
+    gap: 8px;
+}
+
+/* 缩略图样式 */
+.thumbnail {
+    border-radius: 8px;
+    box-shadow: 0 2px 8px var(--apple-shadow);
+    transition: all 0.2s ease;
+}
+
+.thumbnail:hover {
+    transform: scale(1.05);
+}
+
+/* 滚动条样式 */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--apple-border);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--apple-gray);
+}
+
+.media-cell {
+    max-width: 200px;
+}
+
+.editable textarea {
+    width: 100%;
+    min-height: 60px;
+}
+
+.table td {
+    vertical-align: middle;
+}
+
+.btn-group .btn {
+    margin-right: 4px;
+} 

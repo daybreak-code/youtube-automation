@@ -1,0 +1,50 @@
+<div class="modal fade" id="createDraftModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">新建视频草稿</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="createDraftForm">
+                    <div class="mb-3">
+                        <label class="form-label">模型</label>
+                        <select class="form-select" name="model" required>
+                            <option value="">请选择模型</option>
+                            <option value="model1">模型1</option>
+                            <option value="model2">模型2</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">脚本</label>
+                        <textarea class="form-control" name="script" rows="3" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">分镜数量</label>
+                        <input type="number" class="form-control" name="storyboard_count" required min="1">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">发布账号</label>
+                        <select class="form-select" name="publish_account" required>
+                            <option value="">请选择发布账号</option>
+                            <option value="account1">账号1</option>
+                            <option value="account2">账号2</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">工作流</label>
+                        <select class="form-select" name="workflow" required>
+                            <option value="">请选择工作流</option>
+                            <option value="workflow1">工作流1</option>
+                            <option value="workflow2">工作流2</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" id="createDraftBtn">创建</button>
+            </div>
+        </div>
+    </div>
+</div> 

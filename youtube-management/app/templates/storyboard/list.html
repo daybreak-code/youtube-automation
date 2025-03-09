@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1>分镜列表</h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <div class="btn-group me-2">
+            <select class="form-select" id="projectSelect">
+                <option value="">选择项目</option>
+                {% for project in projects %}
+                <option value="{{ project.id }}">{{ project.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="btn-group me-2">
+            <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#createStoryboardModal">新增分镜</button>
+            <button class="btn btn-sm btn-outline-secondary">一键重新生成关键词</button>
+            <button class="btn btn-sm btn-outline-secondary">一键生成图片</button>
+            <button class="btn btn-sm btn-outline-secondary">一键生成视频</button>
+            <button class="btn btn-sm btn-outline-secondary">一键合成成片</button>
+            <button class="btn btn-sm btn-outline-secondary">导出剪映草稿箱</button>
+            <button class="btn btn-sm btn-outline-secondary">发布油管</button>
+        </div>
+    </div>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-striped" id="storyboardTable">
+        <thead>
+            <tr>
+                <th>序号</th>
+                <th>分镜内容</th>
+                <th>图片提示词</th>
+                <th>图片提示词(EN)</th>
+                <th>视频提示词</th>
+                <th>视频提示词(EN)</th>
+                <th>字幕</th>
+                <th>字幕(EN)</th>
+                <th>图片</th>
+                <th>视频</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in storyboards %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td class="editable" data-field="content">{{ item.content }}</td>
+                <td class="editable" data-field="image_prompt">{{ item.image_prompt }}</td>
+                <td class="editable" data-field="image_prompt_en">{{ item.image_prompt_en }}</td>
+                <td class="editable" data-field="video_prompt">{{ item.video_prompt }}</td>
+                <td class="editable" data-field="video_prompt_en">{{ item.video_prompt_en }}</td>
+                <td class="editable" data-field="subtitle">{{ item.subtitle }}</td>
+                <td class="editable" data-field="subtitle_en">{{ item.subtitle_en }}</td>
+                <td class="media-cell">
+                    {% for image in item.images.split(',') %}
+                    <img src="{{ image }}" class="thumbnail" alt="分镜图片">
+                    {% endfor %}
+                </td>
+                <td class="media-cell">
+                    {% for video in item.videos.split(',') %}
+                    <video class="thumbnail" controls>
+                        <source src="{{ video }}" type="video/mp4">
+                    </video>
+                    {% endfor %}
+                </td>
+                <td>
+                    <button class="btn btn-sm btn-primary save-btn">保存</button>
+                    <button class="btn btn-sm btn-info">重新生成图片提示词</button>
+                    <button class="btn btn-sm btn-info">重新生成视频提示词</button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- 新增分镜模态框 -->
+{% include 'storyboard/create_modal.html' %}
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', path='/js/storyboard.js') }}"></script>
+{% endblock %} 
