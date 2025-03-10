@@ -4,7 +4,7 @@ from fastapi.templating import Jinja2Templates
 from pathlib import Path
 from .config import settings
 from .database import engine, Base
-from .routes import draft, storyboard
+from .routes import draft, storyboard, scene
 
 app = FastAPI()
 
@@ -20,6 +20,7 @@ templates = Jinja2Templates(directory=settings.TEMPLATES_DIR)
 # 注册路由
 app.include_router(draft.router)
 app.include_router(storyboard.router)
+app.include_router(scene.router)
 
 # 添加根路由
 @app.get("/")

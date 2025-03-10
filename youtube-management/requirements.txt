@@ -2,4 +2,7 @@ fastapi
 uvicorn
 jinja2
 sqlalchemy
-pydantic-settings 
+pydantic-settings
+jieba
+opencv-python
+numpy 

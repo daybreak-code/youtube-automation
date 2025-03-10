@@ -5,33 +5,50 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>YouTube Downloader</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@400;500;600&display=swap">
+    <style>
+        body {
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+    </style>
 </head>
-<body class="bg-gray-100 min-h-screen">
-    <div class="container mx-auto px-4 py-8">
-        <h1 class="text-3xl font-bold text-center mb-8">YouTube Video Downloader</h1>
+<body class="bg-[#f5f5f7]">
+    <div class="container mx-auto px-4 py-12 max-w-3xl">
+        <h1 class="text-4xl font-semibold text-center mb-8 text-[#1d1d1f]">YouTube Downloader</h1>
         
-        <div class="max-w-2xl mx-auto">
-            <div class="bg-white rounded-lg shadow-md p-6">
-                <div class="mb-4">
+        <div class="mx-auto">
+            <div class="bg-white rounded-2xl shadow-lg p-8 backdrop-blur-xl bg-opacity-80">
+                <div class="mb-6">
                     <input type="text" 
                            id="videoUrl" 
-                           placeholder="Enter YouTube URL" 
-                           class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                           placeholder="Enter YouTube URL"
+                           class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#0071e3] text-[15px] placeholder-gray-400">
                 </div>
                 
                 <button onclick="getVideoInfo()" 
-                        class="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition-colors">
+                        class="w-full bg-[#0071e3] text-white py-3 rounded-xl hover:bg-[#0077ED] transition-all duration-200 font-medium text-[15px]">
                     Get Video Info
                 </button>
             </div>
 
-            <div id="videoInfo" class="mt-6 bg-white rounded-lg shadow-md p-6 hidden">
-                <div id="videoDetails" class="mb-4">
-                    <img id="thumbnail" class="w-full rounded-lg mb-4">
-                    <h2 id="videoTitle" class="text-xl font-semibold mb-2"></h2>
+            <div id="loading" class="mt-8 hidden">
+                <div class="flex items-center justify-center">
+                    <div class="relative">
+                        <div class="w-12 h-12 border-4 border-[#0071e3] border-t-transparent rounded-full animate-spin"></div>
+                        <p class="mt-4 text-[#1d1d1f] text-sm">Loading video information...</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="videoInfo" class="mt-8 bg-white rounded-2xl shadow-lg p-8 hidden backdrop-blur-xl bg-opacity-80">
+                <div id="videoDetails" class="mb-6">
+                    <img id="thumbnail" class="w-full rounded-xl mb-4 shadow-sm">
+                    <h2 id="videoTitle" class="text-xl font-semibold mb-2 text-[#1d1d1f]"></h2>
                 </div>
 
-                <div id="formatsList" class="space-y-2"></div>
+                <div id="formatsList" class="space-y-3">
+                    <!-- Format buttons will be inserted here -->
+                </div>
             </div>
         </div>
     </div>
@@ -51,13 +68,16 @@
         }
 
         async function getVideoInfo() {
-            const url = document.getElementById('videoUrl').value;
-            const videoId = getVideoId(url);
+            const videoUrl = document.getElementById('videoUrl').value;
+            const videoId = getVideoId(videoUrl);
             
             if (!videoId) {
-                alert('请输入有效的YouTube链接');
+                alert('Please enter a valid YouTube URL');
                 return;
             }
+
+            document.getElementById('loading').classList.remove('hidden');
+            document.getElementById('videoInfo').classList.add('hidden');
 
             try {
                 const response = await fetch(`/info/${videoId}`);
@@ -67,7 +87,9 @@
                 }
                 const data = await response.json();
                 
+                document.getElementById('loading').classList.add('hidden');
                 document.getElementById('videoInfo').classList.remove('hidden');
+                
                 document.getElementById('thumbnail').src = data.thumbnail;
                 document.getElementById('videoTitle').textContent = data.title;
                 
@@ -79,31 +101,87 @@
                     return;
                 }
                 
-                data.formats.forEach(format => {
+                // 按文件大小排序并只取前3个最大的
+                const sortedFormats = data.formats
+                    .sort((a, b) => b.filesize - a.filesize)
+                    .slice(0, 3);
+                
+                sortedFormats.forEach(format => {
                     const size = (format.filesize / (1024 * 1024)).toFixed(2);
-                    const button = document.createElement('button');
-                    button.className = 'w-full bg-gray-100 p-3 rounded-lg hover:bg-gray-200 transition-colors text-left';
-                    button.innerHTML = `
-                        <div class="flex justify-between items-center">
-                            <span>${format.resolution} (${format.ext})</span>
-                            <span>${size} MB</span>
+                    const div = document.createElement('div');
+                    div.className = 'bg-gray-50 p-4 rounded-xl border border-gray-100 mb-3';
+                    div.innerHTML = `
+                        <div class="flex justify-between items-center mb-3">
+                            <div>
+                                <span class="text-[#1d1d1f] font-medium">${format.resolution}</span>
+                                <span class="text-[#86868b] ml-2">(${format.ext})</span>
+                            </div>
+                            <span class="text-[#86868b]">${size} MB</span>
                         </div>
+                        <button 
+                            onclick="downloadVideo('${videoId}', '${format.format_id}')"
+                            class="w-full bg-[#0071e3] text-white py-2.5 px-4 rounded-lg hover:bg-[#0077ED] transition-all duration-200 flex items-center justify-center gap-2"
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                            </svg>
+                            Download
+                        </button>
                     `;
-                    button.onclick = () => downloadVideo(videoId, format.format_id);
-                    formatsList.appendChild(button);
+                    formatsList.appendChild(div);
                 });
             } catch (error) {
-                alert(error.message || '获取视频信息失败，请确保已登录YouTube并重试');
-                document.getElementById('videoInfo').classList.add('hidden');
+                document.getElementById('loading').classList.add('hidden');
+                alert(error.message);
             }
         }
 
-        function downloadVideo(videoId, formatId) {
-            if (!videoId || !formatId) {
-                alert('无效的下载参数');
-                return;
+        async function downloadVideo(videoId, formatId) {
+            const button = event.target.closest('button');
+            const originalContent = button.innerHTML;
+            
+            try {
+                button.innerHTML = `
+                    <div class="flex items-center gap-2">
+                        <div class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                        Downloading...
+                    </div>
+                `;
+                button.disabled = true;
+                
+                const response = await fetch(`/download/${videoId}/${formatId}`);
+                if (!response.ok) {
+                    throw new Error('Download failed');
+                }
+                
+                // 创建一个临时链接来下载文件
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `video.${formatId.split('-')[1] || 'mp4'}`;
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+                document.body.removeChild(a);
+                
+                button.innerHTML = `
+                    <div class="flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                        </svg>
+                        Downloaded
+                    </div>
+                `;
+            } catch (error) {
+                button.innerHTML = originalContent;
+                alert('Download failed. Please try again.');
+            } finally {
+                setTimeout(() => {
+                    button.innerHTML = originalContent;
+                    button.disabled = false;
+                }, 3000);
             }
-            window.location.href = `/download/${videoId}/${formatId}`;
         }
     </script>
 </body>
